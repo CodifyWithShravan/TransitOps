@@ -42,10 +42,14 @@ public class RagChatService {
         // NORMAL CHAT (No PDF uploaded yet)
         // =====================================================
         if (!ragEnabled) {
-            return chatClient.prompt()
-                    .user(message)
-                    .call()
-                    .content();
+            try {
+                return chatClient.prompt()
+                        .user(message)
+                        .call()
+                        .content();
+            } catch (Exception e) {
+                return "The AI assistant is temporarily unavailable. Please verify that a valid GEMINI_API_KEY is configured in your backend environment.";
+            }
         }
 
         // =====================================================
@@ -97,9 +101,13 @@ public class RagChatService {
         // =====================================================
         // GEMINI FINAL ANSWER
         // =====================================================
-        return chatClient.prompt()
-                .user(prompt)
-                .call()
-                .content();
+        try {
+            return chatClient.prompt()
+                    .user(prompt)
+                    .call()
+                    .content();
+        } catch (Exception e) {
+            return "The AI assistant is temporarily unavailable. Please verify that a valid GEMINI_API_KEY is configured in your backend environment.";
+        }
     }
 }

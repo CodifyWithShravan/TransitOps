@@ -25,11 +25,15 @@ public class ChatService {
     public String generateResponse(String message, String conversationId) {
         // Fallback for single-shot calls without a persistent conversation ID
         if (conversationId == null || conversationId.trim().isEmpty()) {
-            return chatClient
-                    .prompt()
-                    .user(message)
-                    .call()
-                    .content();
+            try {
+                return chatClient
+                        .prompt()
+                        .user(message)
+                        .call()
+                        .content();
+            } catch (Exception e) {
+                return "The AI assistant is temporarily unavailable. Please verify that a valid GEMINI_API_KEY is configured in your backend environment.";
+            }
         }
 
         // 1. Find or create existing conversation
@@ -64,11 +68,16 @@ public class ChatService {
                 %s
                 """.formatted(context, message);
 
-        String response = chatClient
-                .prompt()
-                .user(prompt)
-                .call()
-                .content();
+        String response;
+        try {
+            response = chatClient
+                    .prompt()
+                    .user(prompt)
+                    .call()
+                    .content();
+        } catch (Exception e) {
+            response = "The AI assistant is temporarily unavailable. Please verify that a valid GEMINI_API_KEY is configured in your backend environment.";
+        }
 
         // 6. Save AI response
         Message assistantMessage = new Message(MessageRole.ASSISTANT, response);
