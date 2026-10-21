@@ -1,0 +1,28 @@
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# IDE and Editor configs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment & secrets - NEVER COMMIT SECRETS
+.env
+*.env
+*.env.local
+*.env.production
+
+# Java & Maven
+**/target/
+**/.mvn/wrapper/maven-wrapper.jar
+**/.sts4-cache/
+
+# Node & Frontend
+**/node_modules/
+**/dist/
+**/dist-ssr/
+*.log
+npm-debug.log*
+yarn-debug.log*
